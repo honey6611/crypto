@@ -8,7 +8,7 @@ var request = require('request');
 // require body-parser module
 var bodyparser = require('body-parser');
 
-app.use(bodyparser.urlencoded({extended: true}));
+app.use(bodyparser.urlencoded({extended: false}));
 
 // set midle wares
 app.use(bodyparser.json());
@@ -38,7 +38,7 @@ app.get("/about",function(req,res){
         var dbo = db.db("local");
         dbo.collection("Cryptocurrencies").find().toArray(function(err, result) {
           if (err) throw err;
-          console.log(result);
+          //console.log(result);
           res.render('pages/about',{
             data: result
             })          
@@ -47,6 +47,25 @@ app.get("/about",function(req,res){
       });    
 
 })
+
+app.post("/about",function(req, res){
+    var MongoClient = require('mongodb').MongoClient;
+    var url = "mongodb://localhost:27017/";
+    console.log(req.body)
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("local");
+        dbo.collection("Cryptocurrencies").find().toArray(function(err, result) {
+          if (err) throw err;
+          //console.log(result);
+          res.render('pages/about',{
+            data: result
+            })          
+          db.close();
+        });
+      });    
+})
+
 app.listen(8080,function(err,res){
     console.log('8080 is the magic port')
 });
