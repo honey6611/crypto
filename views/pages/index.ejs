@@ -1,0 +1,46 @@
+<!-- views/pages/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="container">
+
+<header>
+    <% include ../partials/header %>
+</header>
+
+<main>
+    <container>
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Price Btc</th>
+            <th scope="col">Price USD</th>
+            <th scope="col">Last Updated</th>
+          </tr>
+        </thead>
+        <tbody>
+            <script>alert(data.length)</script>
+            <% for(var i=0; i<data.length; i++) {%>
+                        <tr>
+                                <th scope="row"><%= data[i].id %></th>
+                                <td><%= data[i].price_btc %></td>
+                                <td><%= data[i].price_usd %></td>
+                                <td><%= new Date(data[i].last_updated * 1000).toLocaleString('en-GB', { hour12:false }) %></td>
+                        </tr>                        
+            <% } %>            
+
+        </tbody>
+      </table>
+    </container>
+</main>
+
+<footer>
+    <% include ../partials/footer %>
+</footer>
+
+</body>
+</html>
