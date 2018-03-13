@@ -23,5 +23,9 @@
     "lodash": "^4.17.5",
     "mongo": "^0.1.0",
     "request": "^2.83.0"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.9.0"
   }
 }

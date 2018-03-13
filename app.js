@@ -17,8 +17,9 @@ app.use(bodyparser.json());
 app.set("view engine","ejs");
 
 // require lib
-var getAllCurrencies = require('./app/lib/getAllCurrencies')
-var updateProfile = require('./app/lib/updateProfile')
+var getAllCurrencies = require('./app/lib/getAllCurrencies');
+var updateProfile = require('./app/lib/updateProfile');
+var getCryptoProfile = require('./app/lib/getCryptoProfile');
 
 app.get("/",function(req, res){
     //res.send("server running");
@@ -34,31 +35,41 @@ app.get("/",function(req, res){
       //var data = {body}
 })
 
-app.get("/about",function(req,res){
-  getAllCurrencies(function(err,result){
-    if(err){
-      throw err;
-    }
-    else{
-      res.render('pages/about',{
-        data: result
-        })         
-    }
-  })
+app.get("/portfolio",function(req,res){
+  var CryptoProfileList
+  getCryptoProfile(function(err,result){
+    CryptoProfileList=result;
+      getAllCurrencies(function(err,result){
+        if(err){throw err;}
+        else{
+          res.render('pages/Portfolio',{
+            data: result,
+            msg:'',
+            profileList: CryptoProfileList
+            })// rs.render         
+        }//else
+      })//getAllCurrencies    
+  })//getCryptoProfile
 })
 
-app.post("/about",function(req, res){
+app.post("/portfolio",function(req, res){
     console.log(req.body);
-    updateProfile(req.body,function(err,result){
+    updateProfile(req.body,function(err,result){// update profile with data
       if(err){throw err;}
       else{
-        getAllCurrencies(function(err,result){
-          if(err){ throw err; }
-          else{res.render('pages/about',{ data: result}) }
-        }) 
+        var CryptoProfileList
+        getCryptoProfile(function(err,result){
+          CryptoProfileList=result;
+            getAllCurrencies(function(err,result){
+              if(err){ throw err; }
+              else{res.render('pages/Portfolio',{ 
+                data: result,
+                msg:'1 record added',
+                profileList: CryptoProfileList}) }
+            })         
+        })
       }
     })
-  
 })
 
 app.listen(8080,function(err,res){
