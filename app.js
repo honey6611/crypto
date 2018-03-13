@@ -16,6 +16,10 @@ app.use(bodyparser.json());
 // set view engin
 app.set("view engine","ejs");
 
+// require lib
+var getAllCurrencies = require('./app/lib/getAllCurrencies')
+var updateProfile = require('./app/lib/updateProfile')
+
 app.get("/",function(req, res){
     //res.send("server running");
     request('https://api.coinmarketcap.com/v1/ticker/?convert=USD&limit=2000', function (error, response, body) {
@@ -31,39 +35,30 @@ app.get("/",function(req, res){
 })
 
 app.get("/about",function(req,res){
-    var MongoClient = require('mongodb').MongoClient;
-    var url = "mongodb://localhost:27017/";
-    MongoClient.connect(url, function(err, db) {
-        if (err) throw err;
-        var dbo = db.db("local");
-        dbo.collection("Cryptocurrencies").find().toArray(function(err, result) {
-          if (err) throw err;
-          //console.log(result);
-          res.render('pages/about',{
-            data: result
-            })          
-          db.close();
-        });
-      });    
-
+  getAllCurrencies(function(err,result){
+    if(err){
+      throw err;
+    }
+    else{
+      res.render('pages/about',{
+        data: result
+        })         
+    }
+  })
 })
 
 app.post("/about",function(req, res){
-    var MongoClient = require('mongodb').MongoClient;
-    var url = "mongodb://localhost:27017/";
-    console.log(req.body)
-    MongoClient.connect(url, function(err, db) {
-        if (err) throw err;
-        var dbo = db.db("local");
-        dbo.collection("Cryptocurrencies").find().toArray(function(err, result) {
-          if (err) throw err;
-          //console.log(result);
-          res.render('pages/about',{
-            data: result
-            })          
-          db.close();
-        });
-      });    
+    console.log(req.body);
+    updateProfile(req.body,function(err,result){
+      if(err){throw err;}
+      else{
+        getAllCurrencies(function(err,result){
+          if(err){ throw err; }
+          else{res.render('pages/about',{ data: result}) }
+        }) 
+      }
+    })
+  
 })
 
 app.listen(8080,function(err,res){

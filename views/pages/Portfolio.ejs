@@ -1,0 +1,91 @@
+<!-- views/pages/about.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="container">
+
+<header>
+    <% include ../partials/header %>
+</header>
+
+    <main>
+        <container>
+            <div class="panel panel-default">
+                    <div class="panel-heading">Crypto Currency Holdings</div>
+                    <div class="panel-body">
+                        <%if(profileList.length>0){%>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Units/Tokens</th>
+                                    <th scope="col">Price/unit USD</th>
+                                    <th scope="col">Last Updated</th>
+                                    <th scope="col">Current Market Price USD</th>
+                                    <th scope="col">Gain</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% for(var i=0; i<profileList.length; i++) {%>
+                                                <tr>
+                                                        <th scope="row"><%= profileList[i].cryptoid %></th>
+                                                        <td><%= profileList[i].units %></td>
+                                                        <td><%= profileList[i].price %></td>
+                                                        <td><%= new Date(profileList[i].last_updated * 1000).toLocaleString('en-GB', { hour12:false }) %></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                </tr>                        
+                                    <% } %>            
+                        
+                                </tbody>
+                            </table>
+                        <%}else{%>  
+                            No Items in profile 
+                        <%}%>
+                    </div>
+            </div>        
+            <%if(msg){%>
+            <div class="alert alert-success alert-dismissible fade in">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Success!</strong> <%=msg%>
+            </div>
+            <%}%>
+            <div class="panel panel-default">
+                <div class="panel-heading">Add Currency To your Profile</div>   
+                    <div class="panel-body">      
+                        <form method="post" action="portfolio"> 
+                            <div class="form-group">
+                            <label for="formGroupExampleInput">Crypto Currency</label>
+                            <select class="form-control" name="cryptoId" required>
+                                <option selected >Open this select menu</option>
+                                <% for(var i=0; i<data.length; i++) {%>
+                                    <option value="<%=data[i].id%>"><%=data[i].name%></option>
+                                <%}%>        
+                            </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="formGroupExampleInput1">Number of units/tokens</label>
+                                <input type="number" required name="units" class="form-control" id="formGroupExampleInput1" placeholder="Number of units/tokens" step="0.01">
+                            </div>                    
+                            <div class="form-group">
+                                <label for="formGroupExampleInput2">Buy Price per unit (USD)</label>
+                                <input type="number" required name="price" class="form-control" id="formGroupExampleInput2" placeholder="$" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Input submit button">
+                            </div>
+                        </form>
+                    </div>
+                </div>                    
+        </container>
+    </main>
+    
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
+    
+    </body>
+</html>

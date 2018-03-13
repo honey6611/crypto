@@ -16,7 +16,7 @@
             <form method="post" action="about"> 
                     <div class="form-group">
                       <label for="formGroupExampleInput">Crypto Currency</label>
-                      <select class="form-control" name="cryptoId">
+                      <select class="form-control" name="cryptoId" required>
                         <option selected >Open this select menu</option>
                       <% for(var i=0; i<data.length; i++) {%>
                               <option value="<%=data[i].id%>"><%=data[i].name%></option>
@@ -24,8 +24,12 @@
                       </select>
                     </div>
                     <div class="form-group">
-                      <label for="formGroupExampleInput2">Buy Price (USD)</label>
-                      <input type="number" name="price" class="form-control" id="formGroupExampleInput2" placeholder="$" step="0.01">
+                      <label for="formGroupExampleInput1">Number of units/tokens</label>
+                      <input type="number" required name="units" class="form-control" id="formGroupExampleInput1" placeholder="Number of units/tokens" step="0.01">
+                    </div>                    
+                    <div class="form-group">
+                      <label for="formGroupExampleInput2">Buy Price per unit (USD)</label>
+                      <input type="number" required name="price" class="form-control" id="formGroupExampleInput2" placeholder="$" step="0.01">
                     </div>
                     <div class="form-group">
                          <input type="submit" value="Input submit button">
