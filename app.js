@@ -54,9 +54,11 @@ app.get("/portfolio",function(req,res){
 
 app.post("/portfolio",function(req, res){
     console.log(req.body);
+    var msg;
     updateProfile(req.body,function(err,result){// update profile with data
       if(err){throw err;}
       else{
+        msg = result;
         var CryptoProfileList
         getCryptoProfile(function(err,result){
           CryptoProfileList=result;
@@ -64,7 +66,7 @@ app.post("/portfolio",function(req, res){
               if(err){ throw err; }
               else{res.render('pages/Portfolio',{ 
                 data: result,
-                msg:'1 record added',
+                msg:msg,
                 profileList: CryptoProfileList}) }
             })         
         })

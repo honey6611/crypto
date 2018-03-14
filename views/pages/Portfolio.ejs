@@ -13,6 +13,13 @@
 
     <main>
         <container>
+                    
+        <%if(msg){%>
+            <div class="alert alert-success alert-dismissible fade in">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Success!</strong> <%=msg%>
+            </div>
+            <%}%>
             <div class="panel panel-default">
                     <div class="panel-heading">Crypto Currency Holdings</div>
                     <div class="panel-body">
@@ -37,6 +44,7 @@
                                                         <td><%= new Date(profileList[i].last_updated * 1000).toLocaleString('en-GB', { hour12:false }) %></td>
                                                         <td></td>
                                                         <td></td>
+                                                        <td><input type="submit" data-id="<%= profileList[i]._id %>" class="btnDeleteCrypto" value="Delete"></td>
                                                 </tr>                        
                                     <% } %>            
                         
@@ -46,13 +54,7 @@
                             No Items in profile 
                         <%}%>
                     </div>
-            </div>        
-            <%if(msg){%>
-            <div class="alert alert-success alert-dismissible fade in">
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    <strong>Success!</strong> <%=msg%>
             </div>
-            <%}%>
             <div class="panel panel-default">
                 <div class="panel-heading">Add Currency To your Profile</div>   
                     <div class="panel-body">      
@@ -75,7 +77,8 @@
                                 <input type="number" required name="price" class="form-control" id="formGroupExampleInput2" placeholder="$" step="0.01">
                             </div>
                             <div class="form-group">
-                                <input type="submit" value="Input submit button">
+                                <input type="hidden" name="action" value="save" />
+                                <input class="btn btn-primary" type="submit" value="Save">
                             </div>
                         </form>
                     </div>
@@ -86,6 +89,21 @@
     <footer>
         <% include ../partials/footer %>
     </footer>
-    
+    <form method="post" id="hiddenform">
+        <input type="hidden" name="action" value="delete"/>
+        <input type="hidden" name="cryptoId" id="cryptoid" value=""/>
+    </form>
+    <script type="text/javascript"/>
+        $(function(){
+            $(".btnDeleteCrypto").each(function(){
+                $(this).click(function(){
+                    if (confirm('Are you sure you want to delete item?')) {
+                        $("#cryptoid").val($(this).attr("data-id"));
+                        $("#hiddenform").submit();
+                    }
+                })
+            })
+        })
+    </script>
     </body>
 </html>

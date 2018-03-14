@@ -1,12 +1,11 @@
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/";
-
+var dburl = require('../config/db');
 module.exports = (callback)=>{
-    MongoClient.connect(url, function(err, db) {
+    MongoClient.connect(dburl, function(err, db) {
         if (err) throw err;
-        var dbo = db.db("local");
+        var dbo = db.db("crypto");
             dbo.collection("crypto_currency_portfolio").find().toArray(function(err, result) {
-            console.log(result);
+            //console.log(result);
             if(err){
                 throw err;
                 callback(err, null)  

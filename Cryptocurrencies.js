@@ -9,8 +9,7 @@ var request = require('request');
 // require mongo db
 var mongo = require('mongodb');
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/";
-
+var url = require('./app/config/db');
 
 
     request('https://api.coinmarketcap.com/v1/ticker/?convert=USD&limit=3000', function (error, response, body) {
@@ -31,7 +30,7 @@ var url = "mongodb://localhost:27017/";
 
         MongoClient.connect(url, function(err, db) {
             if (err) throw err;
-            var dbo = db.db("local");
+            var dbo = db.db("crypto");
             dbo.collection("Cryptocurrencies").insertMany(myobj, function(err, res) {
               if (err) throw err;
               console.log("Number of documents inserted: " + res.insertedCount);
