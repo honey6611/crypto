@@ -15,6 +15,7 @@ app.use(bodyparser.json());
 
 // set view engin
 app.set("view engine","ejs");
+const PORT = process.env.PORT || 8080
 
 // require lib
 var getAllCurrencies = require('./app/lib/getAllCurrencies');
@@ -74,8 +75,8 @@ app.post("/portfolio",function(req, res){
     })
 })
 
-app.listen(8080,function(err,res){
-    console.log('8080 is the magic port')
+app.listen(PORT,function(err,res){
+    console.log(`${PORT} is the magic port`)
 });
 
 
