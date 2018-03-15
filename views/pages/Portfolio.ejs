@@ -30,8 +30,9 @@
                                     <th scope="col">Name</th>
                                     <th scope="col">Units/Tokens</th>
                                     <th scope="col">Price/unit USD</th>
+                                    <th scope="col">Total Cost</th>
                                     <th scope="col">Last Updated</th>
-                                    <th scope="col">Current Market Price USD</th>
+                                    <th scope="col">Current Price USD</th>
                                     <th scope="col">Gain</th>
                                     </tr>
                                 </thead>
@@ -41,10 +42,19 @@
                                                         <th scope="row"><%= profileList[i].cryptoid %></th>
                                                         <td><%= profileList[i].units %></td>
                                                         <td><%= profileList[i].price %></td>
+                                                        <td><%=(parseFloat(profileList[i].totalCost)).toFixed(4) %></td>
                                                         <td><%= new Date(profileList[i].last_updated * 1000).toLocaleString('en-GB', { hour12:false }) %></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td><input type="submit" data-id="<%= profileList[i]._id %>" class="btnDeleteCrypto" value="Delete"></td>
+                                                        <td 
+                                                            data-gainid="<%= profileList[i]._id %>"
+                                                            data-totalval="<%=(parseFloat(profileList[i].totalCost)).toFixed(4) %>"
+                                                            data-cryptoid="<%= profileList[i].cryptoid %>" 
+                                                            class='marketvalue'><img src="../../images/ajax-loader.gif"></td>
+                                                        <td id="<%=profileList[i]._id %>"><img src="../../images/ajax-loader.gif"></td>
+                                                        <td>
+                                                            <button type="submit"  data-id="<%= profileList[i]._id %>"  class="btn btn-default btn-sm btnDeleteCrypto">
+                                                                    <span class="glyphicon glyphicon-remove"></span> Delete 
+                                                            </button>    
+                                                        </td>
                                                 </tr>                        
                                     <% } %>            
                         
@@ -56,7 +66,7 @@
                     </div>
             </div>
             <div class="panel panel-default">
-                <div class="panel-heading">Add Currency To your Profile</div>   
+                <div class="panel-heading">Add Currency To your Portfolio</div>   
                     <div class="panel-body">      
                         <form method="post" action="portfolio"> 
                             <div class="form-group">
@@ -93,17 +103,6 @@
         <input type="hidden" name="action" value="delete"/>
         <input type="hidden" name="cryptoId" id="cryptoid" value=""/>
     </form>
-    <script type="text/javascript"/>
-        $(function(){
-            $(".btnDeleteCrypto").each(function(){
-                $(this).click(function(){
-                    if (confirm('Are you sure you want to delete item?')) {
-                        $("#cryptoid").val($(this).attr("data-id"));
-                        $("#hiddenform").submit();
-                    }
-                })
-            })
-        })
-    </script>
+    <script type="text/javascript" src="../../js/portfolio.js"/></script>
     </body>
 </html>

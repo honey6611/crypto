@@ -9,90 +9,42 @@
 
 <header>
     <% include ../partials/header %>
-    <style>
-        div.pager {
-            text-align: center;
-            margin: 1em 0;
-        }
-
-        div.pager span {
-            display: inline-block;
-            width: 2.8em;
-            height: 2.8em;
-            line-height: 2.8;
-            text-align: center;
-            cursor: pointer;
-            background:  rgb(255, 255, 255);
-            color: rgb(10, 10, 10);
-            margin-right: 0.5em;
-            border:1px solid rgb(97, 211, 240);
-        }
-
-        div.pager span.active {
-            background: rgb(97, 211, 240);
-        }        
-    </style>
+    <link rel="stylesheet" href="../../css/styles.css"/>
 </header>
 
 <main>
     <container>
-    <table class="table table-striped paginated">
-        <thead>
-          <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Price Btc</th>
-            <th scope="col">Price USD</th>
-            <th scope="col">Last Updated</th>
-          </tr>
-        </thead>
-        <tbody>
-            <script>alert(data.length)</script>
-            <% for(var i=0; i<data.length; i++) {%>
-                        <tr>
-                                <td scope="row"><%= data[i].id %></td>
-                                <td><%= data[i].price_btc %></td>
-                                <td><%= data[i].price_usd %></td>
-                                <td><%= new Date(data[i].last_updated * 1000).toLocaleString('en-GB', { hour12:false }) %></td>
-                        </tr>                        
-            <% } %>            
+    <div class="panel panel-default">
+        <div class="panel-heading">Ticker USD</div>
+        <div class="panel-body">
+            <table class="table table-striped paginated">
+                <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price Btc</th>
+                    <th scope="col">Price USD</th>
+                    <th scope="col">Last Updated</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <% for(var i=0; i<data.length; i++) {%>
+                                <tr>
+                                        <td scope="row"><%= data[i].id %></td>
+                                        <td><%= data[i].price_btc %></td>
+                                        <td><%= data[i].price_usd %></td>
+                                        <td><%= new Date(data[i].last_updated * 1000).toLocaleString('en-GB', { hour12:false }) %></td>
+                                </tr>                        
+                    <% } %>            
 
-        </tbody>
-      </table>
+                </tbody>
+            </table>
+        </div>
     </container>
 </main>
 
 <footer>
     <% include ../partials/footer %>
 </footer>
-<script type="text/javascript">
-$('td', 'table').each(function(i) {
-    //$(this).text(i+1);
-});
-
-
-
-$('table.paginated').each(function() {
-    var currentPage = 0;
-    var numPerPage = 100;
-    var $table = $(this);
-    $table.bind('repaginate', function() {
-        $table.find('tbody tr').hide().slice(currentPage * numPerPage, (currentPage + 1) * numPerPage).show();
-    });
-    $table.trigger('repaginate');
-    var numRows = $table.find('tbody tr').length;
-    var numPages = Math.ceil(numRows / numPerPage);
-    var $pager = $('<div class="pager"></div>');
-    for (var page = 0; page < numPages; page++) {
-        $('<span class="page-number"></span>').text(page + 1).bind('click', {
-            newPage: page
-        }, function(event) {
-            currentPage = event.data['newPage'];
-            $table.trigger('repaginate');
-            $(this).addClass('active').siblings().removeClass('active');
-        }).appendTo($pager).addClass('clickable');
-    }
-    $pager.insertBefore($table).find('span.page-number:first').addClass('active');
-});
-</script>
+<script type="text/javascript" src="../../js/index.js"></script>
 </body>
 </html>

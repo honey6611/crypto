@@ -15,6 +15,10 @@ app.use(bodyparser.json());
 
 // set view engin
 app.set("view engine","ejs");
+
+//serve static contents
+app.use(express.static('public'))
+
 const PORT = process.env.PORT || 8080
 
 // require lib
