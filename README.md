@@ -13,3 +13,5 @@ Technologies used
 Possible improvements
 1) Add user registration and login area to facilitate multiple profiles.
 2) Store historical data for the currency values which can be plotted on a graph.
+
+Demo: https://thawing-sierra-37240.herokuapp.com/
